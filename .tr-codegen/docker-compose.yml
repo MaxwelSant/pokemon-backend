@@ -1,19 +1,16 @@
 version: '3.8'
 
 services:
-  pokemon-backend:
+  main_app_pokemon-backend:
     build:
       context: ..
       dockerfile: .tr-codegen/Dockerfile
-    container_name: pokemon-backend
+    container_name: main_app_pokemon
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=production
       - PORT=3001
-    volumes:
-      - ./:/app
-      - /app/node_modules
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001/health"]

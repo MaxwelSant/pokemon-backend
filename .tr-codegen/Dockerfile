@@ -1,5 +1,10 @@
 FROM node:18-alpine
 
+RUN apk update && apk add --no-cache git
+
+# Verify git is installed
+RUN git --version
+
 # Set working directory
 WORKDIR /app
 
