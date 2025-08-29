@@ -3,8 +3,8 @@ version: '3.8'
 services:
   pokemon-backend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: .tr-codegen/Dockerfile
     container_name: pokemon-backend
     ports:
       - "3001:3001"
