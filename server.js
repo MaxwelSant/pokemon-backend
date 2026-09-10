@@ -96,6 +96,9 @@ const mockPokemons = [
   }
 ];
 
+let jiraLinkAttempts = 0;
+let linkedJiraIssue = null;
+
 // Routes
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', message: 'Pokemon API is running!' });
@@ -161,6 +164,48 @@ app.get('/api/types', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Pokemon API server running on http://localhost:${PORT}`);
+app.get('/api/jira-status', (req, res) => {
+  const jiraConfigured = Boolean(process.env.JIRA_BASE_URL && process.env.JIRA_API_TOKEN);
+  if (!jiraConfigured || !linkedJiraIssue) {
+    return res.json({
+      success: false,
+      attempts: 1,
+      message: 'Jira integration is not configured (failure 1)'
+    });
+  }
+  res.json({ success: true, attempts: jiraLinkAttempts, data: linkedJiraIssue });
 });
+
+app.post('/api/jira-link', (req, res) => {
+  const { issueKey } = req.body;
+  const jiraConfigured = Boolean(process.env.JIRA_BASE_URL && process.env.JIRA_API_TOKEN);
+
+  if (!issueKey || typeof issueKey !== 'string') {
+    jiraLinkAttempts += 1;
+    return res.status(400).json({
+      success: false,
+      attempts: jiraLinkAttempts,
+      message: `Issue key is required (failure ${jiraLinkAttempts})`
+    });
+  }
+
+  if (!jiraConfigured) {
+    jiraLinkAttempts += 1;
+    return res.status(503).json({
+      success: false,
+      attempts: jiraLinkAttempts,
+      message: `Jira integration is not configured (failure ${jiraLinkAttempts})`
+    });
+  }
+
+  linkedJiraIssue = { key: issueKey };
+  res.json({ success: true, attempts: jiraLinkAttempts, data: linkedJiraIssue });
+});
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Pokemon API server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
