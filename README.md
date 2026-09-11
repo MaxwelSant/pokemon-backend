@@ -8,7 +8,7 @@ A simple Node.js/Express API for managing and filtering Pokemon data.
 - Filter by name, type, and legendary status
 - CORS enabled for frontend integration
 - Docker support with health checks
-- Mock data with 12 Pokemon
+- Mock data with 13 Pokemon
 
 ## API Endpoints
 
@@ -104,8 +104,8 @@ pokemon-backend/
 
 ## Mock Data
 
-The API includes mock data for 12 Pokemon:
-- Regular Pokemon: Pikachu, Charizard, Blastoise, Venusaur, Gyarados, Dragonite, Alakazam
+The API includes mock data for 13 Pokemon:
+- Regular Pokemon: Pikachu, Charizard, Blastoise, Venusaur, Gyarados, Dragonite, Alakazam, Lucario
 - Legendary Pokemon: Mewtwo, Mew, Articuno, Zapdos, Moltres
 
 Each Pokemon has:
