@@ -5,7 +5,7 @@ A simple Node.js/Express API for managing and filtering Pokemon data.
 ## Features
 
 - RESTful API endpoints for Pokemon data
-- Filter by name, type, and legendary status
+- Filter by name, type, legendary status, and generation
 - CORS enabled for frontend integration
 - Docker support with health checks
 - Mock data with 12 Pokemon
@@ -22,6 +22,7 @@ A simple Node.js/Express API for managing and filtering Pokemon data.
 - `name` - Filter by Pokemon name (case-insensitive partial match)
 - `type` - Filter by Pokemon type (case-insensitive exact match)
 - `legendary` - Filter by legendary status (`true` or `false`)
+- `generation` - Filter by Pokemon generation number (e.g. `1`)
 
 ### Example Requests
 
@@ -37,6 +38,9 @@ curl http://localhost:3001/api/pokemons?type=fire
 
 # Filter legendary Pokemon
 curl http://localhost:3001/api/pokemons?legendary=true
+
+# Filter by generation
+curl http://localhost:3001/api/pokemons?generation=1
 
 # Combined filters
 curl http://localhost:3001/api/pokemons?type=psychic&legendary=true
@@ -113,6 +117,7 @@ Each Pokemon has:
 - `name` - Pokemon name
 - `type` - Array of types
 - `legendary` - Boolean indicating legendary status
+- `generation` - Generation number the Pokemon was introduced in
 - `image` - URL to Pokemon sprite
 
 ## Health Check

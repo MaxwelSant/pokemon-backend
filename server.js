@@ -15,6 +15,7 @@ const mockPokemons = [
     name: 'Pikachu',
     type: ['Electric'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'
   },
   {
@@ -22,6 +23,7 @@ const mockPokemons = [
     name: 'Charizard',
     type: ['Fire', 'Flying'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png'
   },
   {
@@ -29,6 +31,7 @@ const mockPokemons = [
     name: 'Blastoise',
     type: ['Water'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'
   },
   {
@@ -36,6 +39,7 @@ const mockPokemons = [
     name: 'Venusaur',
     type: ['Grass', 'Poison'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png'
   },
   {
@@ -43,6 +47,7 @@ const mockPokemons = [
     name: 'Mewtwo',
     type: ['Psychic'],
     legendary: true,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png'
   },
   {
@@ -50,6 +55,7 @@ const mockPokemons = [
     name: 'Mew',
     type: ['Psychic'],
     legendary: true,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png'
   },
   {
@@ -57,6 +63,7 @@ const mockPokemons = [
     name: 'Articuno',
     type: ['Ice', 'Flying'],
     legendary: true,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png'
   },
   {
@@ -64,6 +71,7 @@ const mockPokemons = [
     name: 'Zapdos',
     type: ['Electric', 'Flying'],
     legendary: true,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png'
   },
   {
@@ -71,6 +79,7 @@ const mockPokemons = [
     name: 'Moltres',
     type: ['Fire', 'Flying'],
     legendary: true,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png'
   },
   {
@@ -78,6 +87,7 @@ const mockPokemons = [
     name: 'Gyarados',
     type: ['Water', 'Flying'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png'
   },
   {
@@ -85,6 +95,7 @@ const mockPokemons = [
     name: 'Dragonite',
     type: ['Dragon', 'Flying'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png'
   },
   {
@@ -92,6 +103,7 @@ const mockPokemons = [
     name: 'Alakazam',
     type: ['Psychic'],
     legendary: false,
+    generation: 1,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png'
   }
 ];
@@ -102,7 +114,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/api/pokemons', (req, res) => {
-  const { name, type, legendary } = req.query;
+  const { name, type, legendary, generation } = req.query;
   
   let filteredPokemons = [...mockPokemons];
   
@@ -127,7 +139,17 @@ app.get('/api/pokemons', (req, res) => {
       pokemon.legendary === isLegendary
     );
   }
-  
+
+  // Filter by generation (numeric, e.g. ?generation=1)
+  if (typeof generation === 'string' && generation !== '') {
+    const generationNumber = Number.parseInt(generation, 10);
+    if (!Number.isNaN(generationNumber)) {
+      filteredPokemons = filteredPokemons.filter(pokemon =>
+        pokemon.generation === generationNumber
+      );
+    }
+  }
+
   res.json({
     success: true,
     count: filteredPokemons.length,
