@@ -93,6 +93,13 @@ const mockPokemons = [
     type: ['Psychic'],
     legendary: false,
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png'
+  },
+  {
+    id: 13,
+    name: 'Gengar',
+    type: ['Ghost', 'Poison'],
+    legendary: false,
+    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png'
   }
 ];
 
